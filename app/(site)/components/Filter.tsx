@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 interface FilterProps {
   types: { name: string }[];
@@ -17,7 +17,6 @@ const Filter: React.FC<FilterProps> = ({ types, selectedTypes, setSelectedTypes 
     if (checked) {
       setSelectedTypes([...selectedTypes, value]);
     } else {
-      // less readable than using splice
       setSelectedTypes(selectedTypes.filter((type) => type !== value));
     }
   };
@@ -34,7 +33,7 @@ const Filter: React.FC<FilterProps> = ({ types, selectedTypes, setSelectedTypes 
               checked={isChecked(type.name)}
               onChange={handleChange}
             />
-            {type.name}
+            {type.name.toUpperCase()}
           </label>
         ))}
       </div>
