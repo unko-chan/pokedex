@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getTypes } from "../utils/pokeapi";
 
 interface FilterProps {
+  types: { name: string }[];
   selectedTypes: string[];
   setSelectedTypes: (types: string[]) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ selectedTypes, setSelectedTypes }) => {
-  const [types, setTypes] = useState<{ name: string }[]>([]);
-
-  useEffect(() => {
-    getTypes().then((response) => {
-      setTypes(response.results);
-    });
-  }, []);
+const Filter: React.FC<FilterProps> = ({ types, selectedTypes, setSelectedTypes }) => {
 
   const isChecked = (type: string) => {
     return selectedTypes.includes(type);
@@ -28,8 +21,6 @@ const Filter: React.FC<FilterProps> = ({ selectedTypes, setSelectedTypes }) => {
       setSelectedTypes(selectedTypes.filter((type) => type !== value));
     }
   };
-
-  console.log(selectedTypes);
 
   return (
     <div>
