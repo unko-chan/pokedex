@@ -6,8 +6,11 @@ interface FilterProps {
   setSelectedTypes: (types: string[]) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ types, selectedTypes, setSelectedTypes }) => {
-
+const Filter: React.FC<FilterProps> = ({
+  types,
+  selectedTypes,
+  setSelectedTypes,
+}) => {
   const isChecked = (type: string) => {
     return selectedTypes.includes(type);
   };

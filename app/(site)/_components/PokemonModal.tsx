@@ -30,6 +30,10 @@ interface PokemonType {
 }
 
 const PokemonModal: React.FC<PokemonModalProps> = ({ pokemon, onClose }) => {
+  /*
+  TODO:
+  - Create components for type, ability, and stat
+  */
   const pokemonTypes = pokemon.types.map((type) => type.type).join(", ");
   const pokemonAbilities = pokemon.abilities.map((ability) => ability.name).join(", ");
   const pokemonStats = pokemon.stats.map((stat) => stat.name).join(", ");
