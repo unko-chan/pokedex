@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getTypes } from "../utils/pokeapi";
 
-const Filter: React.FC = () => {
-  const [types, setTypes] = useState<{ name: string }[]>([]);
+interface FilterProps {
+  selectedTypes: string[];
+  setSelectedTypes: (types: string[]) => void;
+}
 
-  // gotta lift state up
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+const Filter: React.FC<FilterProps> = ({ selectedTypes, setSelectedTypes }) => {
+  const [types, setTypes] = useState<{ name: string }[]>([]);
 
   useEffect(() => {
     getTypes().then((response) => {
