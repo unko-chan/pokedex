@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { FC } from "react";
 
 interface PaginationProps {
   page: number;
   totalPages: number;
-  handlePageChange: (page: number) => void;
+  setPage: (pageNumber: number) => void;
 }
 
 const MAX_PAGE_NUMBERS = 5;
 
-const Pagination: React.FC<PaginationProps> = ({
-  page,
-  totalPages,
-  handlePageChange,
-}) => {
+const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
   const previousPage = () => {
     if (page > 1) {
-      handlePageChange(page - 1);
+      setPage(page - 1);
     }
   };
 
   const nextPage = () => {
     if (page < totalPages) {
-      handlePageChange(page + 1);
+      setPage(page + 1);
     }
+  };
+
+  const goToPage = (pageNumber: number) => {
+    setPage(pageNumber);
   };
 
   // pages 1 to 3 dont need to be offset
@@ -38,8 +40,6 @@ const Pagination: React.FC<PaginationProps> = ({
     startPage = Math.max(1, totalPages - 4);
   }
 
-  // pretty cool way to create an array of numbers
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#using_arrow_functions_and_array.from
   const pageNumbers = Array.from(
     { length: endPage - startPage + 1 },
     (_, i) => startPage + i
@@ -54,7 +54,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           key={pageNumber}
           disabled={pageNumber === page}
-          onClick={() => handlePageChange(pageNumber)}
+          onClick={() => goToPage(pageNumber)}
         >
           {pageNumber}
         </button>
