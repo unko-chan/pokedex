@@ -1,11 +1,6 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
-import {
-  getPokemonList,
-  getAllPokemon,
-  getPokemonByType,
-  getTypes,
-} from "./utils/pokeapi";
+import React, { useEffect, useState } from "react";
+import { getAllPokemon, getPokemonByType, getTypes } from "./utils/pokeapi";
 import PokemonCard from "./components/PokemonCard";
 import Pagination from "./components/Pagination";
 import Filter from "./components/Filter";
@@ -49,7 +44,11 @@ const Home: React.FC = () => {
     });
 
     getTypes().then((response) => {
-      setTypes(response.results);
+      const types = response.results.filter(
+        (type: { name: string }) =>
+          type.name !== "unknown" && type.name !== "shadow"
+      );
+      setTypes(types);
     });
   }, []);
 
@@ -58,15 +57,22 @@ const Home: React.FC = () => {
       const promises = selectedTypes.map((type) => getPokemonByType(type));
 
       Promise.all(promises).then((typeResponses) => {
-        const filteredNamesSet = new Set();
+        // keep track of name counts
+        const nameCounts: Record<string, number> = {};
 
         typeResponses.forEach((response) => {
-          response.forEach((pokemonItem: PokemonItem) =>
-            filteredNamesSet.add(pokemonItem.pokemon.name)
-          );
+          response.forEach((pokemonItem: PokemonItem) => {
+            if (nameCounts[pokemonItem.pokemon.name]) {
+              nameCounts[pokemonItem.pokemon.name]++;
+            } else {
+              nameCounts[pokemonItem.pokemon.name] = 1;
+            }
+          });
         });
 
-        const filteredNames = Array.from(filteredNamesSet);
+        const filteredNames = Object.keys(nameCounts).filter(
+          (name) => nameCounts[name] === selectedTypes.length
+        );
 
         const filteredPokemon = pokemonList.filter((pokemon) =>
           filteredNames.includes(pokemon.name)
@@ -79,7 +85,10 @@ const Home: React.FC = () => {
   }, [selectedTypes]);
 
   useEffect(() => {
-    const pokemonOnPage = filteredPokemonList.slice(offset, offset + POKEMON_PER_PAGE);
+    const pokemonOnPage = filteredPokemonList.slice(
+      offset,
+      offset + POKEMON_PER_PAGE
+    );
     setCurrentPokemonList(pokemonOnPage);
   }, [page, offset, filteredPokemonList]);
 
