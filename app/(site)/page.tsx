@@ -1,25 +1,23 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import { getAllPokemon, getPokemonByType, getTypes } from "./utils/pokeapi";
-import PokemonCard from "./components/PokemonCard";
-import Pagination from "./components/Pagination";
-import Filter from "./components/Filter";
+import {
+  fetchAllPokemon,
+  fetchAllTypes,
+  fetchFilteredPokemonByTypes,
+} from "./_actions";
+import PokemonCard from "./_components/PokemonCard";
+import Pagination from "./_components/Pagination";
+import Filter from "./_components/Filter";
 
 interface Pokemon {
   name: string;
   url: string;
-  types: [{ name: string }];
 }
 
 interface Types {
   name: string;
   url: string;
-}
-
-interface PokemonItem {
-  pokemon: {
-    name: string;
-  };
 }
 
 const POKEMON_PER_PAGE = 10;
@@ -36,49 +34,25 @@ const Home: React.FC = () => {
   const offset = (page - 1) * POKEMON_PER_PAGE;
 
   useEffect(() => {
-    getAllPokemon().then((response) => {
-      setPokemonList(response.results);
-      setFilteredPokemonList(response.results);
-      setCount(response.count);
-      setTotalPages(Math.ceil(response.count / POKEMON_PER_PAGE));
+    fetchAllPokemon().then((pokemon) => {
+      setPokemonList(pokemon);
+      setFilteredPokemonList(pokemon);
+      setCount(pokemon.length);
+      setTotalPages(Math.ceil(pokemon.length / POKEMON_PER_PAGE));
     });
 
-    getTypes().then((response) => {
-      const types = response.results.filter(
-        (type: { name: string }) =>
-          type.name !== "unknown" && type.name !== "shadow"
-      );
+    fetchAllTypes().then((types) => {
       setTypes(types);
     });
   }, []);
 
   useEffect(() => {
     if (selectedTypes.length > 0) {
-      const promises = selectedTypes.map((type) => getPokemonByType(type));
-
-      Promise.all(promises).then((typeResponses) => {
-        // keep track of name counts
-        const nameCounts: Record<string, number> = {};
-
-        typeResponses.forEach((response) => {
-          response.forEach((pokemonItem: PokemonItem) => {
-            if (nameCounts[pokemonItem.pokemon.name]) {
-              nameCounts[pokemonItem.pokemon.name]++;
-            } else {
-              nameCounts[pokemonItem.pokemon.name] = 1;
-            }
-          });
-        });
-
-        const filteredNames = Object.keys(nameCounts).filter(
-          (name) => nameCounts[name] === selectedTypes.length
-        );
-
-        const filteredPokemon = pokemonList.filter((pokemon) =>
-          filteredNames.includes(pokemon.name)
-        );
-        setFilteredPokemonList(filteredPokemon);
-      });
+      fetchFilteredPokemonByTypes(selectedTypes).then(
+        (filteredPokemon: Pokemon[]) => {
+          setFilteredPokemonList(filteredPokemon);
+        }
+      );
     } else {
       setFilteredPokemonList(pokemonList);
     }
