@@ -31,7 +31,7 @@ const Pagination: React.FC<PaginationProps> = ({
   let endPage = Math.min(totalPages, startPage + 4);
 
   if (page <= 3) {
-    endPage = MAX_PAGE_NUMBERS;
+    endPage = Math.min(totalPages, MAX_PAGE_NUMBERS);
   }
 
   if (page > totalPages - 2) {
@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({
   // pretty cool way to create an array of numbers
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#using_arrow_functions_and_array.from
   const pageNumbers = Array.from(
-    { length: MAX_PAGE_NUMBERS },
+    { length: endPage - startPage + 1 },
     (_, i) => startPage + i
   );
 
