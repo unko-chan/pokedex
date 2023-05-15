@@ -57,16 +57,13 @@ const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
       </div>
       <Separator orientation="vertical" />
       {pageNumbers.map((pageNumber) => (
-        <>
-          <Button
-            key={pageNumber}
-            disabled={pageNumber === page}
-            onClick={() => goToPage(pageNumber)}
-          >
-            {pageNumber}
-          </Button>
-          <Separator orientation="vertical" />
-        </>
+        <Button
+          key={pageNumber}
+          disabled={pageNumber === page}
+          onClick={() => goToPage(pageNumber)}
+        >
+          {pageNumber}
+        </Button>
       ))}
       <div className={cn({ invisible: page === totalPages })}>
         <Button disabled={page === totalPages} onClick={nextPage}>

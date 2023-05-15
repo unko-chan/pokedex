@@ -18,7 +18,7 @@ const Filter: React.FC<FilterProps> = ({
       {types.map((type) => {
         const isActive = selectedTypes.includes(type.name);
         return (
-          <div className="flex items-center mx-1">
+          <div key={type.name} className="flex items-center mx-1">
             <Checkbox
               id={type.name}
               value={type.name}
