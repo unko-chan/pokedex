@@ -1,18 +1,23 @@
-import './globals.css'
+import "./globals.css";
 
 export const metadata = {
-  title: 'Pokedex',
-  description: 'Pokedex',
-}
+  title: "Pokedex",
+  description: "Pokedex",
+};
 
 export default function RootLayout({
   children,
+  modal,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        {modal}
+      </body>
     </html>
-  )
+  );
 }
