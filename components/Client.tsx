@@ -17,7 +17,7 @@ interface PokemonListProps {
   filteredPokemon: Pokemon[];
 }
 
-const POKEMON_PER_PAGE = 10;
+const POKEMON_PER_PAGE = 9;
 
 export default function Client({
   pokemonData,
@@ -99,20 +99,23 @@ export default function Client({
         selectedTypes={selectedTypes}
         updateSearchParam={updateSearchParam}
       />
-      <div>
+      <div className="text-lg font-semibold leading-none tracking-tight">
         Page {page} of {totalPages}
-      </div>
-      <div>
+        <br />
         Showing {POKEMON_PER_PAGE} of {pokemonList.length}
       </div>
-      <Pagination
-        page={page}
-        setPage={updatePageParam}
-        totalPages={totalPages}
-      />
-      {displayedPokemon.map((pokemon: Pokemon) => (
-        <PokemonCard key={pokemon.name} pokemon={pokemon} />
-      ))}
+      <div className="justify-items-center items-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 auto-rows-max gap-3 m-1">
+        {displayedPokemon.map((pokemon: Pokemon) => (
+          <PokemonCard key={pokemon.name} pokemon={pokemon} />
+        ))}
+      </div>
+      <div className="flex justify-center mt-10">
+        <Pagination
+          page={page}
+          setPage={updatePageParam}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 
 interface PokemonCardProps {
   pokemon: {
@@ -17,16 +18,24 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
   const params = new URLSearchParams(searchParams.toString());
 
   return (
-    <Link key={pokemon.name} href={`/pokemon/${pokemon.name}?${params}`}>
-      <Image
-        priority={true}
-        src={imageUrl}
-        alt={pokemon.name}
-        width="128"
-        height="128"
-      />
-      <div>{pokemon.name}</div>
-    </Link>
+    <Card className="max-w-fit aspect-square">
+      <Link key={pokemon.name} href={`/pokemon/${pokemon.name}?${params}`}>
+        <CardContent>
+          <Image
+            priority={true}
+            src={imageUrl}
+            alt={pokemon.name}
+            width="180"
+            height="180"
+          />
+        </CardContent>
+        <CardFooter className="justify-center">
+          <CardTitle>
+            {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+          </CardTitle>
+        </CardFooter>
+      </Link>
+    </Card>
   );
 };
 

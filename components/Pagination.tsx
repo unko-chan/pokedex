@@ -1,6 +1,9 @@
 "use client";
 
 import React, { FC } from "react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 interface PaginationProps {
   page: number;
@@ -46,22 +49,30 @@ const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
   );
 
   return (
-    <div>
-      <button disabled={page === 1} onClick={previousPage}>
-        Previous
-      </button>
+    <div className="flex h-5 items-center space-x-4 text-sm">
+      <div className={cn({ invisible: page === 1 })}>
+        <Button disabled={page === 1} onClick={previousPage}>
+          Previous
+        </Button>
+      </div>
+      <Separator orientation="vertical" />
       {pageNumbers.map((pageNumber) => (
-        <button
-          key={pageNumber}
-          disabled={pageNumber === page}
-          onClick={() => goToPage(pageNumber)}
-        >
-          {pageNumber}
-        </button>
+        <>
+          <Button
+            key={pageNumber}
+            disabled={pageNumber === page}
+            onClick={() => goToPage(pageNumber)}
+          >
+            {pageNumber}
+          </Button>
+          <Separator orientation="vertical" />
+        </>
       ))}
-      <button disabled={page === totalPages} onClick={nextPage}>
-        Next
-      </button>
+      <div className={cn({ invisible: page === totalPages })}>
+        <Button disabled={page === totalPages} onClick={nextPage}>
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

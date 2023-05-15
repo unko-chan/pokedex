@@ -1,4 +1,6 @@
 import React from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "./ui/separator";
 
 interface FilterProps {
   types: { name: string }[];
@@ -12,19 +14,19 @@ const Filter: React.FC<FilterProps> = ({
   updateSearchParam,
 }) => {
   return (
-    <div>
+    <div className="flex flex-wrap justify-center">
       {types.map((type) => {
         const isActive = selectedTypes.includes(type.name);
         return (
-          <label key={type.name}>
-            <input
-              type="checkbox"
+          <div className="flex items-center mx-1">
+            <Checkbox
+              id={type.name}
               value={type.name}
               checked={isActive}
-              onChange={() => updateSearchParam("filter", type.name)}
+              onClick={() => updateSearchParam("filter", type.name)}
             />
-            {type.name.toUpperCase()}
-          </label>
+            <label htmlFor={type.name}>{type.name.toUpperCase()}</label>
+          </div>
         );
       })}
     </div>
