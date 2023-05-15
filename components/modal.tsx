@@ -13,8 +13,11 @@ export default function Modal({ children }: any) {
   }, [router]);
 
   const onClick = useCallback(
-    (e: MouseEvent) => {
-      if (e.target === overlay.current || e.target === wrapper.current) {
+    (e: React.MouseEvent) => {
+      if (
+        (e.target as Node) === overlay.current ||
+        (e.target as Node) === wrapper.current
+      ) {
         if (onDismiss) onDismiss();
       }
     },
