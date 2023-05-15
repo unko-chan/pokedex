@@ -1,5 +1,9 @@
-import React from "react";
-import { fetchAllPokemon, fetchAllTypes, fetchFilteredPokemonByTypes } from "./_actions";
+import React, { Suspense } from "react";
+import {
+  fetchAllPokemon,
+  fetchAllTypes,
+  fetchFilteredPokemonByTypes,
+} from "./_actions";
 import Client from "@/components/Client";
 
 interface Pokemon {
@@ -10,7 +14,7 @@ interface Pokemon {
 export default async function Home({ searchParams }: { searchParams: any }) {
   const pokemonData = await fetchAllPokemon();
   const types = await fetchAllTypes();
-  const filterParam = searchParams.filter
+  const filterParam = searchParams.filter;
   let filteredPokemon: Pokemon[] = [];
 
   if (filterParam) {
@@ -19,9 +23,14 @@ export default async function Home({ searchParams }: { searchParams: any }) {
   }
 
   return (
-    <div>
-      <h1>Pokédex</h1>
-      <Client pokemonData={pokemonData} filteredPokemon={filteredPokemon} types={types} />
-    </div>
+    <main>
+      <div>
+        <Client
+          pokemonData={pokemonData}
+          filteredPokemon={filteredPokemon}
+          types={types}
+        />
+      </div>
+    </main>
   );
 }
