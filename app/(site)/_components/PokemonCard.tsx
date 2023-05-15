@@ -14,7 +14,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
 
   return (
     <div>
-      <Image priority={true} src={imageUrl} alt={pokemon.name} width="128" height="128" />
+      <Image
+        priority={true}
+        src={imageUrl}
+        alt={pokemon.name}
+        width="128"
+        height="128"
+      />
       <div>{pokemon.name}</div>
     </div>
   );

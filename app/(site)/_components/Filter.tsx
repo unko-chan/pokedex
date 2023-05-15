@@ -3,43 +3,30 @@ import React from "react";
 interface FilterProps {
   types: { name: string }[];
   selectedTypes: string[];
-  setSelectedTypes: (types: string[]) => void;
+  updateSearchParam: (name: string, type: string) => void;
 }
 
 const Filter: React.FC<FilterProps> = ({
   types,
   selectedTypes,
-  setSelectedTypes,
+  updateSearchParam,
 }) => {
-  const isChecked = (type: string) => {
-    return selectedTypes.includes(type);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setSelectedTypes([...selectedTypes, value]);
-    } else {
-      setSelectedTypes(selectedTypes.filter((type) => type !== value));
-    }
-  };
-
   return (
     <div>
-      <div>Filter</div>
-      <div>
-        {types.map((type) => (
+      {types.map((type) => {
+        const isActive = selectedTypes.includes(type.name);
+        return (
           <label key={type.name}>
             <input
               type="checkbox"
               value={type.name}
-              checked={isChecked(type.name)}
-              onChange={handleChange}
+              checked={isActive}
+              onChange={() => updateSearchParam("filter", type.name)}
             />
             {type.name.toUpperCase()}
           </label>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 };
