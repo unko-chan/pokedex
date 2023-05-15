@@ -3,9 +3,9 @@
 import { useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Modal({ children }) {
-  const overlay = useRef();
-  const wrapper = useRef();
+export default function Modal({ children }: any) {
+  const overlay = useRef<HTMLDivElement | null>(null);
+  const wrapper = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   const onDismiss = useCallback(() => {
@@ -22,7 +22,7 @@ export default function Modal({ children }) {
   );
 
   const onKeyDown = useCallback(
-    (e) => {
+    function (this: Document, e: KeyboardEvent) {
       if (e.key === "Escape") onDismiss();
     },
     [onDismiss]
