@@ -18,7 +18,7 @@ interface Pokemon {
 
 export async function fetchAllPokemon(): Promise<any> {
   try {
-    const response = await api.listPokemons(0, -1);
+    const response = await api.listPokemons(0, 810);
     const data = await response.results;
     return data;
   } catch (error) {
